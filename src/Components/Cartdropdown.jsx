@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./cartdropdown.css";
 import Button from '@mui/material/Button';
-function Cartdropdown({ cartEle,clicked }) {
+import cartSlice, { add, remove } from "../store/cart-slice";
+import { useSelector, useDispatch } from 'react-redux'
+
+
+function Cartdropdown({ clicked }) {
+  const cart=useSelector(state=>state.cart);
   const [cardDataArr, setcardDataArr] = useState([]);
   const DataArr = [];
+  const dispatch=useDispatch();
   const [filcardDataArr, setfilcardDataArr] = useState([]);
 
   useEffect(() => {
@@ -17,33 +23,14 @@ function Cartdropdown({ cartEle,clicked }) {
       
       
   },[]);
-  useEffect(() => {
-    cartEle.forEach(element => {
-        for (let i of cardDataArr){
-            // console.log(i);
-            let id=i.id;
-            if (id==element) {
-                setfilcardDataArr((prev)=>[...prev,i]);
-                // console.log(filcardDataArr);
-                
-            }
-        }
-      });
   
-    return ()=>{
-        setfilcardDataArr([]);
-    }
-  }, [cartEle])
-  function remove(params) {
+  
+    
+  function removeEl(params) {
 // console.log(params);
-
+dispatch(remove(params))
     // let removed= filcardDataArr.filter((e)=>e.id!=params);
-    setfilcardDataArr(filcardDataArr.filter((e)=> e.id !== params));
-    console.log(cartEle);
     
-    cartEle.splice(cartEle.indexOf(params), 1)
-    
-    console.log(cartEle);
     
   }
 
@@ -66,7 +53,7 @@ function Cartdropdown({ cartEle,clicked }) {
 
           </thead>
           <tbody>
-          {filcardDataArr.length>0?filcardDataArr.map((el) => {
+          {cart.length>0?cart.map((el) => {
             {/* console.log("hi") */}
             return (
               <tr>
@@ -75,7 +62,7 @@ function Cartdropdown({ cartEle,clicked }) {
                 <td>{el.category}</td>
                 <td>{el.rating.rate}⭐</td>
                 <td><img src={el.image} alt="" srcset="" style={{width:"100%",height:"100%"}}/></td>
-                <td><Button variant="contained" sx={{fontSize:"small",color:"black",backgroundColor:"yellow",fontWeight:"bold"}} onClick={()=> remove(el.id)
+                <td><Button variant="contained" sx={{fontSize:"small",color:"black",backgroundColor:"yellow",fontWeight:"bold"}} onClick={()=> removeEl(el)
                 }>Remove</Button></td>
               </tr>
             );

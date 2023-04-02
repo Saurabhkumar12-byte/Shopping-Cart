@@ -6,12 +6,21 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useDispatch } from 'react-redux'
+import cartSlice, { add, remove } from '../store/cart-slice';
+// import {add,remove} from
+
+// import store from '../../store';
+
+
 // import Dispatch from '../Components/Layout'
-import { Dispatch } from '../Reducers/Dispatch';
+// import { Dispatch } from '../Reducers/Dispatch';
 
 
 export default function Home() {
-  const dispatch=useContext(Dispatch);
+  
+  // const dispatch=useContext(Dispatch);
+  const dispatch=useDispatch();
   const [expanded, setExpanded] = useState(false);
   // const [buttData, setbuttData] = useState("Add to cart");
   const [cardDataArr,setcardDataArr]=useState([]);
@@ -25,19 +34,19 @@ export default function Home() {
     setExpanded(!expanded);
   };
 
-  const handleDispatch=(e,id)=>{
+  const handleDispatch=(e,product)=>{
     // console.log(e.target.innerText);
     
   if (e.target.innerText=="ADD TO CART") {
-    // e.target.innerText="Remove";
+    e.target.innerText="Remove";
     // console.log(e.target.value);
     // console.log(id);
 
     
-    dispatch({type:"add",data:id})
+    dispatch(add(product))
   } else {
     e.target.innerText="Add to cart";
-    dispatch({type:"remove",data:id})
+    dispatch(remove(product))
   }
   }
 
@@ -65,7 +74,7 @@ export default function Home() {
       <CardActions>
         <Button size="small" variant='outlined' sx={{marginRight:'40%'}}>₹{item.price}</Button>
         <Button size="small" variant='contained'onClick={(e)=>{
-          handleDispatch(e,item.id);
+          handleDispatch(e,item);
         }}>Add to cart</Button>
       </CardActions>
     </Card>

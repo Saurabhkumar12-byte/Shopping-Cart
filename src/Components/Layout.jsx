@@ -3,7 +3,9 @@ import React, { useState, useReducer, createContext } from 'react'
 import { Outlet } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components';
 import Header from './Header'
-import { Dispatch } from '../Reducers/Dispatch';
+import { Provider } from 'react-redux';
+import store from '../../store';
+// import { Dispatch } from '../Reducers/dispatch'
 
 
 // const initialState = {count: 0};
@@ -34,17 +36,19 @@ function Layout() {
       mode:"light",
     }
   });
-  const [state, dispatch] = useReducer(reducer, []);
+  // const [state, dispatch] = useReducer(reducer, []);
   return (
     <>
+    <Provider store={store}>
     <ThemeProvider theme={theme}>
-    <Header cartArr={state}></Header>
+    <Header ></Header>
     <main>
-      <Dispatch.Provider value={dispatch}>
+     
        <Outlet></Outlet>
-      </Dispatch.Provider>
+      
     </main>
     </ThemeProvider>
+    </Provider>
     
     </>
   )
