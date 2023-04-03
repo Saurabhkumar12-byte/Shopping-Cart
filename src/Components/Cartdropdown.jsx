@@ -10,19 +10,8 @@ function Cartdropdown({ clicked }) {
   const [cardDataArr, setcardDataArr] = useState([]);
   const DataArr = [];
   const dispatch=useDispatch();
-  const [filcardDataArr, setfilcardDataArr] = useState([]);
-
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((json) =>{ setcardDataArr(json);
-        // console.log(cardDataArr)
-        // console.log(cartEle);
-        ;});
-      
-      
-      
-  },[]);
+ 
+ 
   
   
     

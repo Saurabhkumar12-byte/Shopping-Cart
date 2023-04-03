@@ -6,8 +6,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import cartSlice, { add, remove } from '../store/cart-slice';
+import {getProducts,productsReducer } from '../store/Products-slice';
+
+
 // import {add,remove} from
 
 // import store from '../../store';
@@ -21,13 +24,14 @@ export default function Home() {
   
   // const dispatch=useContext(Dispatch);
   const dispatch=useDispatch();
+  const products=useSelector(state=>state.products)
   const [expanded, setExpanded] = useState(false);
   // const [buttData, setbuttData] = useState("Add to cart");
   const [cardDataArr,setcardDataArr]=useState([]);
 
   useEffect(()=>{
-    fetch("https://fakestoreapi.com/products").then((res)=>res.json()).then((json)=>setcardDataArr(json));
     
+    dispatch(getProducts())
   },[])
 
   const handleExpandClick = () => {
@@ -53,7 +57,10 @@ export default function Home() {
   return (
    <>
    <div className="home"style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",placeItems:"center",gap:"1rem"}}>
-    {cardDataArr.map((item)=>{
+   {
+    console.log(products)
+   }
+    {products?.map((item)=>{
       return <Card sx={{ maxWidth: 345, display:"inline-block",margin:"1rem" }} key={item.id}>
       <CardMedia
         component="img"
